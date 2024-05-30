@@ -4,21 +4,57 @@
     <meta charset="utf-8">
     <!-- Importer le fichier de style -->
     <link rel="stylesheet" href="css/login.css" media="screen" type="text/css" />
+
+    <title>Login</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-    <div id="container">
-        <!-- Zone de connexion -->
-        <form action="login.php" method="POST">
-            <h1>Login</h1>
+<form id="loginForm">
+    <h1>Login</h1>
 
-            <label><b>Username</b></label>
-            <input type="text" placeholder="Enter username" name="username" required>
+    <label><b>Username</b></label>
+    <input type="text" placeholder="Enter username" name="username" required>
 
-            <label><b>Password</b></label>
-            <input type="password" placeholder="Enter password" name="password" required>
+    <label><b>Password</b></label>
+    <input type="password" placeholder="Enter password" name="password" required>
 
-            <input type="submit" id='submit'>
-        </form>
-    </div>
+    <input type="submit" id="submit">
+</form>
+
+<script>
+$(document).ready(function() {
+    $('#loginForm').submit(function(event) {
+        event.preventDefault(); // Prevents the default form submission
+
+        // Retrieves the values of username and password fields
+        var username = $('input[name="username"]').val();
+        var password = $('input[name="password"]').val();
+
+        // Creates an object with the data to send
+        var formData = {
+            username: username,
+            password: password
+        };
+
+        // Sends an AJAX request
+        $.ajax({
+            type: 'POST',
+            url: 'http://79.137.38.217:5000/login',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function(response) {
+                console.log('Request succeeded');
+                console.log(response); // Logs the server response to the console
+                // You can handle the response here
+            },
+            error: function(xhr, status, error) {
+                console.error('Error during request');
+                console.error(error); // Logs the error to the console
+                // You can handle the error here
+            }
+        });
+    });
+});
+</script>
 </body>
 </html>
